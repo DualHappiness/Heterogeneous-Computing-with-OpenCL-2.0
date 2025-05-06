@@ -156,7 +156,7 @@
                 <div id="content" class="content">
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<p>#5.5 设备端排队</p>
+<h1 id="55-设备端排队"><a class="header" href="#55-设备端排队">5.5 设备端排队</a></h1>
 <p>OpenCL 2.x版本之前的标准，只允许命令从主机端入队。OpenCL 2.0去除了这个限制，并定义了设备端的命令队列，其允许父内核直接将子内核入队。</p>
 <p>设备端任务队列的好处是启用了<em>嵌套并行机制</em>(nested parallelism)——一个并行程序中的某个线程，再去开启多个线程[1]。嵌套并行机制常用于不确定内部某个算法要使用多少个线程的应用中。与单独使用<em>分叉-连接</em>(fork-join)机制相比，嵌套并行机制中产生的线程会在其任务完成后销毁。这两种机制的区别如图5.7所示：</p>
 <p><img src="../../images/chapter5/5-7.png" alt="" /></p>
@@ -197,7 +197,7 @@ ndrange_t myNdrange = ndrange_2D(globalSize);
 </code></pre>
 <p>最终，enqueue_kernel()的最后一个参数block，其为指定入队的内核。这里指定内核的方式称为“Clang块”。下面两节中将会更加详细的对“如何利用设备入队”进行讨论，以及如何使用块语法指定一个嵌套内核。</p>
 <p>如主机端API一样，enqueue_kernel()会返回一个整数，代表其执行是否成功。返回CLK_SUCCESS为成功，返回CLK_ENQUEUE_FAILURE则为失败。编程者想要了解失败入队的更多原因的话，需要在clBuildProgram()传入"-g"参数，或是clCompileProgram()调用会启用细粒度错误报告，会有更加具体的错误码返回，例如：CLK_INVALID_NDRANGE或CLK_DEVICE_QUEUE_FULL。</p>
-<p>##5.5.1 创建一个设备端队列</p>
+<h2 id="551-创建一个设备端队列"><a class="header" href="#551-创建一个设备端队列">5.5.1 创建一个设备端队列</a></h2>
 <p>设备端队列也需要使用clCreateCommandQueueWithProperties()在主机端进行创建。为了表明是为了设备端创建的命令队列，properties中需要传入CL_QUEUE_ON_DEVICE。另外，当一个设备端队列创建之后，标准要求CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABEL也要传入(使用乱序方式)，OpenCL 2.0中设备端队列被定义为乱序队列。这时命令队列可以通过内核的参数传入内核内，其对应的就是内核中的queue_t类型。代码清单5.9中，展示了一个带有队列参数的内核。</p>
 <p>{%ace edit=false, lang='c_cpp'%}
 // -----------------------------
@@ -227,7 +227,7 @@ void foo(queue_t myQueue, ...){
 {%endace%}</p>
 <p>程序清单5.9 将设备端队列作为参数设置到内核中</p>
 <p>有另外一个可选的配置，CL_QUEUE_ON_DEVICE_DEFAULT可传入clCreateCommandQueueWithProperties中，这样产生的队列默认为设备端可用队列。对于编程者来说，这样简化了许多工作，因为默认队列就可以在相关的内核使用内置函数，所以就不需要再将命令队列作为参数传入内核中了(可以通过内置函数get_default_queue()获取队列对象)。</p>
-<p>##5.5.2 入队设备端内核</p>
+<h2 id="552-入队设备端内核"><a class="header" href="#552-入队设备端内核">5.5.2 入队设备端内核</a></h2>
 <p>当使用主机端API(clEnqueueNDRangeKernel())入队内核执行命令之前，需要对内核进行参数的设置。设备端使用enqueue_kernel()将内核命令入队前，是没有设置参数的过程。不过，内核的参数还是要设置，那该如何是好呢？为了正确的执行内核，OpenCL选择使用Clang块语法进行参数设置。</p>
 <p>Clang块在OpenCL标准中，作为一种方式对内核进行封装，并且Clang块可以进行参数设置，能让子内核顺利入队。Clang块是一种传递代码和作用域的方法。其语法与闭包函数和匿名函数类似。块类型使用到一个结果类型和一系列参数类型(类似lambda表达式)。这种语法让“块”看起来更像是一个函数类型声明。“^”操作用来声明一个块变量(block variable)(该块用来引用内核)，或是用来表明作用域的开始(使用内核代码直接进行声明)。</p>
 <p>代码清单5.10中的简单例子，用来表明块语法的使用方式。</p>

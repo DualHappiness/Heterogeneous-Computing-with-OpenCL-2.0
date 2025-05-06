@@ -156,7 +156,7 @@
                 <div id="content" class="content">
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<p>#11.8 编译器怎样支持C++ AMP的线程块划分</p>
+<h1 id="118-编译器怎样支持c-amp的线程块划分"><a class="header" href="#118-编译器怎样支持c-amp的线程块划分">11.8 编译器怎样支持C++ AMP的线程块划分</a></h1>
 <p>线程划分属于GPU优化中的一个技巧。根据抽象的等级，编程模型可以显式的或隐式的支持线程划分。隐式的方式可能会自动的减少在一个线程束中对内存的访问，并且通过透明或半透明的线程划分，来达到最佳内存形式，并且获取最佳的性能。与之相反，显式的方式需要用户显式定义不同的内存对象(可能有些内存在片上共享，有些内存是离散的)，相关的数据移动也由用户进行控制。<code>C++ AMP</code>、CUDA和OpenCL都属于显式编程模型。剩下的内容，我们将一个编译器作者的角度，来考虑如何显式的支持线程划分。</p>
 <p>对于支持线程划分的显式编程模型，我们通常都可以看到如下的特点：</p>
 <ul>
@@ -165,7 +165,7 @@
 <li>为固定大小的计算块提供同步机制，以便于不同工作项之间的协同工作</li>
 </ul>
 <p>对于GPU有些了解的读者，可能对于<code>C++ AMP</code>不是很了解。<code>C++ AMP</code>中需要使用extent类中尺寸描述符，对计算区域的大小进行确定。另外，tile_extent描述了和对计算区域进行分块。其划分方式与OpenCL类似。</p>
-<p>##11.8.1 划分计算域</p>
+<h2 id="1181-划分计算域"><a class="header" href="#1181-划分计算域">11.8.1 划分计算域</a></h2>
 <p><code>C++ AMP</code>中有extent类中一个成员函数名为“tile”，用来计算tile_extent。该模板函数的参数就说明了划分区域的大小。现在<code>C++ AMP</code>就与OpenCL不太相同了，<code>C++ AMP</code>中的划分方式静态参数化的。</p>
 <p>为了让库和编译器了解划分区域的信息，我们使用了一个带有一些参数Lambda内核)，将一些参数一次转换为tiled_index。tiled_index与OpenCL中的get_gloab_id(), get_local_id()和get_group_id()所获取的值一致。</p>
 <p>{%ace edit=false, lang='c_cpp'%}
@@ -185,7 +185,7 @@ mxm_amp_kernel(tidx, av_a, av_b, av_c);
 });
 }
 {%endace%}</p>
-<p>##11.8.2 指定地址空间和栅栏</p>
+<h2 id="1182-指定地址空间和栅栏"><a class="header" href="#1182-指定地址空间和栅栏">11.8.2 指定地址空间和栅栏</a></h2>
 <p><code>C++ AMP</code>中的内核函数中，使用tile_static限定符用来声明对应内存对象在片上内存上分配(OpenCL中对应的是本地内存)。为了强制<code>C++ AMP</code>划分块中的线程同步，<code>C++ AMP</code>为tile_static对象提供了barrier.wait函数。和OpenCL中的概念一样，当该函数调用时，所有线程都要在同步调用点处停止。</p>
 <p><code>C++ AMP</code>和OpenCL有个有趣的区别在于地址空间处。OpenCL中，其是指针类型的一种，其指针使用__local进行声明(不能使用__private对一段内存进行声明)。<code>C++ AMP</code>中地址空间时指针值的一部分。可以使用通用指针进行指定：</p>
 <pre><code class="language-c++">float *foo;

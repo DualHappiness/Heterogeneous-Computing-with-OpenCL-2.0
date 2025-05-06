@@ -156,7 +156,7 @@
                 <div id="content" class="content">
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<p>#11.2 简单介绍C++ AMP</p>
+<h1 id="112-简单介绍c-amp"><a class="header" href="#112-简单介绍c-amp">11.2 简单介绍C++ AMP</a></h1>
 <p><code>C++ AMP</code>是一个编程模型，可将<code>C++</code>实现的算法数据并行化。与OpenCL和CUDA C比起来，<code>C++ AMP</code>封装了很多底层的细节，包括数据转移之类的，这样会然改程序看上去更加整洁。<code>C++ AMP</code>还是包含了非常多的特性，能让编程者在错综复杂的系统中进行性能加速。</p>
 <p>因为<code>C++ AMP</code>的标准是开源的，所以可以有很多不同的实现。我们这里所使用的<code>C++ AMP</code>基于开源Clnag和LLVM编译器，多核(MulticoreWare)公司发布了<code>CLamp</code>——GPU上使用OpenCL实现的<code>C++ AMP</code>。其可以在Linux和Mac OS X上运行，并且能支持大多数不同供应商的GPU卡，比如AMD、Intel和NVIDIA。</p>
 <p><code>C++ AMP</code>已经作为<code>C++11</code>标准的一个扩展。添加了一些标准头文件，这些头文件中定义了一些已经模板化的数据并行算法，还另外的为<code>C++</code>编程语言添加了两条规则。第一条：添加的函数限定于运行在GPU上；第二条：允许GPU线程共享数据。本章并不是要对<code>C++ AMP</code>进行详细的介绍。我们会主要关注<code>C++ AMP</code>一些重要的核心特性，并且介绍一个<code>C++ AMP</code>编译器是如何使用OpenCL实现这些特性的。如果有读者对<code>C++ AMP</code>本身很感兴趣，微软已经发布了一本关于<code>C++ AMP</code>的书籍[1]，可以作为<code>C++ AMP</code>的入门。</p>
@@ -196,11 +196,11 @@ int main(void){
 <p>图11.2 向量相加的原理图</p>
 <p>图11.1的第1行包含了<code>C++ AMP</code>的头文件——amp.h，该头文件了包含了核心特性的声明。<code>C++ AMP</code>类和函数都属于<code>concurrency</code>命名空间。使用“using”的方式可以让我们在这段简单的代码中，不用为相应的函数加上前缀<code>concurrency::</code>。</p>
 <p>主函数在第4行，其启动了一个主机线程，该线程包含一段已加速的数据并行计算。<code>C++ AMP</code>中的“主机”这个术语的意思和OpenCL是一样的。不过，在OpenCL中还存在“设备”的概念，也就是帮助主程序加速的执行设备，而在<code>C++ AMP</code>中使用“加速器”这一概念来表述。<code>C++ AMP</code>其中的一个高级特性就是支持Lambda表达式，Lambda的使用可以让主机和加速器的代码放在一起，甚至放在同一个函数中。所以在<code>C++ AMP</code>中就几乎没有主机和加速器代码之分。后面将会介绍，编译器如何将<code>C++ AMP</code>中的Lambda编译到OpenCL上下文中。</p>
-<p>##11.2.1 C++ AMP array_view</p>
+<h2 id="1121-c-amp-array_view"><a class="header" href="#1121-c-amp-array_view">11.2.1 C++ AMP array_view</a></h2>
 <p><code>C++ AMP</code>中，类模板array_view作为数据读写的传媒。一个array_view对象是一个多维的数据集合。这种方式并不是将已有数据拷贝到一个新的位置，而是使用一种新的方式去访问原始数据所在的地址。模板有两个参数：数据的类型和数据的维度。通过不同维度上的索引，可以访问到不同等级的类型或对象。本例中，我们使用了1维，数据类型为float的array_view(或“一个等级为1的array_view”)。</p>
 <p>图11.1中的第14行，array_view使用标准<code>C++ vector</code>a创建了一个实例——av(a)。这里<code>C++ AMP</code>编译器使用一段常量数据作为输入，认为其是一维数组，并且认为数组的长度为给定的数值N。</p>
 <p>第16行对cv进行构建是，设置的两个参数，第一个表示数据元素的个数。av，bv和cv中元素的数量都为N。通常这里设置的N称为预设值。为了表示和操作这个值，<code>C++ AMP</code>提供了一个预设值模板<code>extent</code>——只需要设置一个整型作为模板参数，用来获取数据等级。具有维度的类模板，有些就支持指定特定的预设值指定一个或者多个整型数值，就像对cv的操作一样。cv构造函数传入的第二个参数是用来存储主机数据的数组。</p>
-<p>##11.2.2 C++ AMP parallel_for_each，或调用内核</p>
+<h2 id="1122-c-amp-parallel_for_each或调用内核"><a class="header" href="#1122-c-amp-parallel_for_each或调用内核">11.2.2 C++ AMP parallel_for_each，或调用内核</a></h2>
 <p>图11.1中第16行使用了parallel_for_each结构，其属于<code>C++ AMP</code>数据并行计算的代码段。其类似于对OpenCL内核的启动。<code>C++ AMP</code>中对于数据集的操作称为<em>计算区域</em>(compute domain)，并且定义了一个预设值对象。与OpenCL类似，每个线程都调用的是同一个函数，并且线程间都由自己区域，是完全分开的(类似于NDRange)。</p>
 <p>与<code>C++ STL</code>中标准算法for_each类似，parallel_for_each函数模板就是将指定函数应用到对应的数据集上。第一个参数为一个预设值对象，其用指定数据并行计算的范围。本例中，我们要对array_view上的每个数据执行了对应的操作，所以传入的预设值为cv array_view的范围。这里，我们通过成员函数获取array_view的范围值(cv.get_extent())。这一个1维的预设值，其计算区域的整型值的范围为[0，n)。</p>
 <p><strong>与内核一样的仿函数</strong></p>

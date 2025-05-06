@@ -156,7 +156,7 @@
                 <div id="content" class="content">
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<p>#11.5 C++ AMP的编译流</p>
+<h1 id="115-c-amp的编译流"><a class="header" href="#115-c-amp的编译流">11.5 C++ AMP的编译流</a></h1>
 <p>上一节中我们了解了<code>C++ AMP</code>与OpenCL的对应关系，那么对于编译和链接<code>C++ AMP</code>程序的方式也应该很容易理解。具体到CLamp编译器上，其进行如下的一些操作：</p>
 <ol>
 <li>写完代码之后，将<code>C++ AMP</code>源码以“设备端模式”进行编译(所有<code>C++ AMP</code>指定的语言规则都会检查并应用)。CLamp编译器可以产生相应的OpenCL内核(基于AMP的约束函数)，并将其编译成LLVM的位码文件。内核所调用的函数都必须是内联函数。主机端程序也会编译成生成相应的位代码，然后生成对应的<code>C++</code>函数。</li>

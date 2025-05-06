@@ -156,7 +156,7 @@
                 <div id="content" class="content">
                     <main>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
-<p>#3.6 OpenCL运行时(例子)</p>
+<h1 id="36-opencl运行时例子"><a class="header" href="#36-opencl运行时例子">3.6 OpenCL运行时(例子)</a></h1>
 <p>OpenCL的四种模型在之前的章节中已经全部讨论了，OpenCL通过运行时API让应用开发者了解这些模型。平台模型用来使能一个主机，以及一个或多个设备，让其参与到OpenCL应用的执行中。应用开发者使用编程模型来让OpenCL内核实现其核心计算部分。内核执行时如何获取需要的数据，则有内存模型定义。开发者通过执行模型提交相应的命令到设备端(执行内存搬运或执行内核任务)。本节会将这些内容融合到一个完整的OpenCL应用中。</p>
 <p>创建并执行一个简单的OpenCL应用大致需要以下几步：</p>
 <ol>
@@ -287,7 +287,7 @@ clReleaseMemObject(bufB);
 clReleaseMemObject(bufC);
 clReleaseContext(context);
 {%endace%}</p>
-<p>##3.6.1 向量相加的完整代码</p>
+<h2 id="361-向量相加的完整代码"><a class="header" href="#361-向量相加的完整代码">3.6.1 向量相加的完整代码</a></h2>
 <p>下面将完整的展示向量相加这个例子。其具有上一节的所有步骤，不过这个例子中使用了第一个平台对象和设备对象。</p>
 <p>{%ace edit=false, lang='c_cpp'%}
 // This program implements a vector addition using OpenCL</p>
