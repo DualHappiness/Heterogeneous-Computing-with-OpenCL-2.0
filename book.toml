@@ -1,0 +1,15 @@
+[book]
+authors = ["陈晓伟 chenxiaowei", "dualwu"]
+language = "zh-hans"
+src = "src"
+title = "《Heterogeneous Computing with OpenCL2.0 - Third Edition》中文版"
+description = "作为对《Heterogeneour Computing with OpenCL2.0 (Thrid Edition)》英文版的中文翻译。"
+
+[preprocessor.katex]
+command = "mdbook-katex"
+
+[build]
+build-dir = "docs"
+
+[output.html]
+
