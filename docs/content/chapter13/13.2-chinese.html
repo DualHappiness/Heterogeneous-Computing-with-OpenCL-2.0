@@ -1,0 +1,277 @@
+<!DOCTYPE HTML>
+<html lang="zh-hans" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>13.2 越过C和C++ - 《Heterogeneous Computing with OpenCL2.0 - Third Edition》中文版</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="作为对《Heterogeneour Computing with OpenCL2.0 (Thrid Edition)》英文版的中文翻译。">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">《Heterogeneous Computing with OpenCL2.0 - Third Edition》中文版</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<p>#13.2 越过C和C++</p>
+<p>对于很多开发者来说，他们会选择C和C++作为开发语言。其他的一些开发者则可能会选择别的编程语言，我们所知的很多软件是使用Java或Python开发的。这些更高级的语言有更高的生产力，通常会提供很多必要的特性(比如，垃圾收集)，这些语言在前端的开发者中更加好用。这些语言还有一种特点，可移植性特别好，想想Java的口号“一次编写，处处可用”，这样开发者就不需要为一些系统底层的问题而困扰。不过，由于无法接近底层，我们用这样语言编写出来的程序，性能无法达到最佳。</p>
+<p>为了弥补性能鸿沟，并且不需要将很多已有库使用这类语言重新再写一遍。我们这里会使用<em>外部函数接口</em>(FFI，foreignfunctioninterface)，其可以让应用调用使用C和C++(或其他低层语言)编写的原生库。例如，Java提供了Java原生接口，Python也有同样的机制。当然，Java和Python也有已经包装好的OpenCL库(JOCL(Java bindings for OpenCL)[1], PyOpenCL[2])，可以让开发者直接调用。这种模型的确是非常底层，并且这种模型能够管理应用运行库，还有(库内无管理的)OpenCL原生代码库。为了展示这种代码的特点，代码清单13.1中展示了一个PyOpenCL版本的向量相加。</p>
+<p>{%ace edit=false, lang='python'%}
+import pyopencl as cl
+import numpy
+import numpy.linalg as la</p>
+<p>a = numpy.random.rand(50000).astype(numpy.float32)
+b = numpy.random.rand(50000).astype(numpy.float32)</p>
+<p>ctx = cl.create_some_context()
+queue = cl.CommandQueue(ctx)</p>
+<p>mf = cl.mem_flags
+a_buf = cl.Buffer(ctx, mf.READ_ONLY | mf.COPY_HOST_PTR, hostbuf = a)
+b_buf = cl.Buffer(ctx, mf.READ_ONLY | mf.COPY_HOST_PTR, hostbuf = b)</p>
+<p>prg = cl.Program(ctx, """
+__kernel void vecadd(__global const float *a,
+__global const float *b,
+__global float *c){
+int gid = get_global_id(0);
+c[gid] = a[gid] + b[gid];
+}
+""").build()</p>
+<p>prg.vecadd(queue, a.shape, None, a_buf, b_buf, dest_buf);</p>
+<p>a_plus_b = numpy.empty_like(a)
+cl.enqueue_copy(queue, a_plus_b, dest_buf)</p>
+<p>print la.norm(a_plus_b - (a + b))
+{%endace%}</p>
+<p>代码清单13.1 PyOpenCL实现的向量相加</p>
+<p>下面的例子使用同样的一种包装API——Aparapi[3]——进行实现(之前是由AMD主导进行开发，不过现在已经是一款开源项目)。Aparapi允许Java开发者使用GPU，将一些可以进行数据并行的代码段放到GPU上运行。Aparapi运行时为了使用GPU，会将这部分代码写入Java字节码中。如果，因为某些原因Aparapi无法运行在GPU上，其会使用Java线程池进行数据并发的处理。Aparapi的意义在于，保持Java语言的语法，并发其精神。下面我们还会用向量相加展示Aparapi的使用方式(代码清单13.2)，其会调用OpenCL C代码或调用OpenCL的API。</p>
+<p>{%ace edit=false, lang='java'%}
+package com.amd.aparapi.sample.add;
+import com.amd.aparapi.Kernel;
+import com.amd.aparapi.Range;</p>
+<p>public class Main{
+public static void main(String[] _args){
+final int size = 512;
+final float[] a = new float[size];
+final float[] b = new float[size];</p>
+<pre><code>for (int i = 0; i &lt; size; i++){
+  a[i] = (float)(Math.random()*100);
+  b[i] = (float)(Math.random()*100);
+}
+
+final float[] sum = new float[size];
+Kenrel kernel = new Kernel(){
+  @Override public void run(){
+    int gid = getGlobalId();
+    sum[gid] = a[gid] + b[gid];
+  }
+};
+
+kernel.execute(Range.create(512));
+for (int i = 0; i &lt; size; i++){
+  System.out.printf("%6.2f + %6.2f = %8.2f\n", a[i], b[i], sum[i]);
+}
+kernel.dispose();
+</code></pre>
+<p>}
+}
+{%endace%}</p>
+<p>代码清单13.2 使用Aparapi实现的OpenCL，在Java中实现的向量相加</p>
+<p>另外，Aparapi开发者要是用OpenCL，需要创建出一个Aparapi类的实例，在运行时重载内核函数的实现(内核函数可被动态编译)，从而产生对应的Java字节码。</p>
+<p>Aparapi通常会嵌入一些<em>特定领域专属语言</em>(DSL，domain-specific language)中，主机端编码语言可以是另外一种语言(本例中主机端是Java)。DSL专注于为该领域的专家提供相应接口，并且DLS通常会为给定的学术领域提供一组特定的特性——例如，医学图像。本例中，使用的领域是通用计算，实现的功能是数据并行计算。</p>
+<hr />
+<p>[1] Java bindings for OpenCL(JOCL), 2012, http://www.jocl.org</p>
+<p>[2] A.Klöckner, <em>PyOpenCL</em>, 2012, http://mathema.tician.de/software/pyopencl</p>
+<p>[3] Aparapi, 2012, http://Aparapi.googlecode.com</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../content/chapter13/13.1-chinese.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../content/chapter13/13.3-chinese.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../content/chapter13/13.1-chinese.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../content/chapter13/13.3-chinese.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

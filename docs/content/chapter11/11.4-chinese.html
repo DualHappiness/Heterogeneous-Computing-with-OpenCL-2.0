@@ -1,0 +1,346 @@
+<!DOCTYPE HTML>
+<html lang="zh-hans" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>11.4 C++ AMP与OpenCL对比 - 《Heterogeneous Computing with OpenCL2.0 - Third Edition》中文版</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="作为对《Heterogeneour Computing with OpenCL2.0 (Thrid Edition)》英文版的中文翻译。">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">《Heterogeneous Computing with OpenCL2.0 - Third Edition》中文版</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<p>#11.4 C++ AMP与OpenCL对比</p>
+<p>为了将OpenCL映射到一个新的编程模型中，先将一些重要的步骤进行映射。表11.1中就展示了OpenCL相关步骤与<code>C++ AMP</code>的对应关系。</p>
+<p>表11.1 OpenCL的相关步骤在<code>C++ AMP</code>的对应情况</p>
+<div class="table-wrapper"><table><thead><tr><th>OpenCL</th><th>C++ AMP</th></tr></thead><tbody>
+<tr><td>内核</td><td>parallel_for_each中定义Lambda函数，或将一个函数直接指定给parallel_for_each</td></tr>
+<tr><td>内核名</td><td>使用C++函数操作符直接调用给定函数或Lambda函数</td></tr>
+<tr><td>内核启动</td><td>parallel_for_each</td></tr>
+<tr><td>内核参数</td><td>使用Lambda函数获取变量</td></tr>
+<tr><td>cl_mem内存</td><td>concurrency::array_view或array</td></tr>
+</tbody></table>
+</div>
+<p>图11.1中使用了Lambda函数作为并行执行的具体实现。这就类似于OpenCL中的内核函数，其会并行执行在各个工作项上。</p>
+<p>通常会使用内核名称生成具体的OpenCL内核对象，这里可以直接使用<code>c++</code>的函数操作符直接运行Lambda函数或给定的函数。<code>C++</code>中为了避免不命名冲突，使用了作用域规则生成对应的内核对象。</p>
+<p>其余的映射就是有关于主机端和设备端交互的。<code>C++ AMP</code>使用parallel_for_each来替代OpenCL中使用API进行传递内核函数和启动内核函数的过程。图11.1中使用的Lambda函数可以自动获取相关的参数，也就是自动的完成了向内核传递参数这一步骤。另外，Lambda中所是用到的array_view，都可以认为是显式的cl_mem内存。</p>
+<p>从概念上了解了二者的映射关系后，对于<code>C++ AMP</code>编译器来说只需要提供如下支持就可以：</p>
+<ol>
+<li>如何从周围的代码中获取OpenCL内核所需要的参数。</li>
+<li>主机端需要在一条语句中完成创建内核、准备参数和内存，以及加载内核并运行的操作。</li>
+</ol>
+<p><code>C++</code>Lambda函数可以当做为匿名函数，为了更加贴近于<code>C++</code>我们会重写这个Lambda表达式(如图11.3所示)。</p>
+<p>{%ace edit=false, lang='c_cpp'%}
+class vecAdd{
+private:
+array_view&lt;const float, 1&gt;va, vb;
+array_view&lt;float, 1&gt; vc;
+public:
+vecAdd(array_view&lt;const float, 1&gt; a,
+array_view&lt;const float, 1&gt; b,
+array_view&lt;float, 1&gt; c) restric(cpu)
+:va(a), vb(b), vc(c){}
+void operator()(index&lt;1&gt; idx) restrict(amp){
+cv[idx] = av[idx] + bv[idx];
+}
+};
+{%endace%}</p>
+<p>图11.3 仿函数版本的<code>C++ AMP</code>向量相加。</p>
+<p>这段代码中，显式的将Lambda函数携程一个仿函数版本，其可以获取变量，va、vb和vc作为这个类的输出，并且将Lambda作为函数操作符的函数体。最后，构造函数通过主机端传入的参数生成对应的输出。</p>
+<p>不过，我们含有一些东西漏掉了：</p>
+<ol>
+<li>函数操作符在这里与OpenCL内核相对应。<code>C++ AMP</code>中使用parallel_for_each执行对应内核函数。不过，该仿函数是一个类，需要我们先创建一个实例。</li>
+<li>运行时如何对内核的名称进行推断？</li>
+<li>array_view在主机端可能包含有cl_mem，不过在OpenCL设备端只能操作原始cl_mem指针，而不允许在主机端对cl_mem指针进行操作。这种关系需要理清楚，以便满足主机端和设备端不同的操作。</li>
+</ol>
+<p>为了弥合这些漏洞，我们需要在图11.3中的类中添加更多的东西。图11.4中的第1、21、29和31行。</p>
+<p>{%ace edit=false, lang='c_cpp'%}
+// This is used to close the gap #3
+template<class T>
+class array_view{
+#ifdef HOST_CODE
+cl_mem _backing_storage;
+T *_host_ptr;
+#else
+T *_backing_storage;
+#endif
+size_t _sz;
+};</p>
+<p>class vecAdd{
+private:
+array_view&lt;const float, 1&gt; va, vb;
+array_view&lt;float, 1&gt; vc;
+public:
+vecAdd(
+array_view&lt;const float, 1&gt; a,
+array_view&lt;const float, 1&gt; b,
+array_view&lt;float, 1&gt; c)restrict(cpu)
+:va(a), vb(b), vc(c){}
+// This new constructor is for closing gap #1
+#ifndef HOST_CODE
+vecAdd(__global float *a, size_t as, __global float *b, size_t bs, __global float *c, size_t cs) restrict(amp)
+:va(a, as), vb(b, bs), vc(c, cs){}
+void operator()(index&lt;1&gt; idx) restrict(amp){
+cv[idx] = av[idx] + bv[idx];
+}
+#endif
+// The following parts are added to close the gap #1 and #2
+#ifndef HOST_CODE
+// This is to close the gap #2
+static const char *__get_kernel_name(void){
+return mangled name of "vecAdd::trampoline(const __global float *va, const __global float *vb, __global float *vc)"
+}
+#else // This is to close the gap #1
+_kernel void trampoline(const __global float *va, size_t vas,   const __global float *vb, size_t vbs, __global float *vc, size_t vcs){
+vecAdd tmp(va, vas, vb ,vbs, vc, vcs);// Calls the new constructor at line 20
+index&lt;1&gt; i(get_gloabl_id(0));
+tmp(i);
+}
+#endif
+};
+{%endace%}</p>
+<p>图11.4 扩展之后的向量相加——<code>C++ AMP</code>版本</p>
+<p>图11.4中的版本中，将三个遗留的问题进行弥补。第一行简单的定义了一个<code>concurrency::array_view</code>，这个简单定义并不表示其就是标准<code>concurrency::array_view</code>的实现。这里使用的方式就是使用宏的方式，使得主机端和设备端所在同种容器中，使用不同的宏定义情况下，具有不同的类型数据成员。注意这里我们将array_view看作为一个OpenCL内存，这里我们就需要将OpenCL内存对象放入array_view中(命名为backing_storage)。同样，我们也需要添加两个成员函数，并且需要再定义一个新的构造函数，所以有些功能需要<code>C++ AMP</code>编译器在编译翻译过程中进行添加：</p>
+<ul>
+<li>需要在编译主机端代码阶段获取内核名称</li>
+<li>其次就是需要一个OpenCL内核，并且内核代码只能在设备端编译。并且运行时主机端就需要使用到这些内核的名字。编译器需要将这些函数对象拷贝一份，并连同内核参数传入设备端。</li>
+<li>第22行的新构造函数会编译成只有设备端能使用的代码。其目的是使用新的构造函数，在GPU上够造出一个Lambda函数的副本(携带参数)，参数通常使用的地址并不是外部使用的那些。这就给了编译器相对自由的空间，并且可以在这之后进行一些优化。</li>
+</ul>
+<p>不过，11.4图中的代码主要描绘了CLamp如何获取每个函数的名称(调用函数操作符)，新的构造函数会将Lambda表达式构造成适合于GPU端使用的函数，并且使用宏的方式让同一个数组容器可以包含主机端或设备端的内存。最后，输出的OpenCL代码中，我们将数组容器中的cl_mem对象通过<code>clSetKernelArg()</code>API以一定的顺序设置入OpenCL内核当中。为了满足这些要求，需要实现的编译器具有如下的功能：</p>
+<ul>
+<li>从主机端的Lambda函数中获取cl_mem对象，并通过OpenCL<code>clSetKernelArg()</code> API对内存对象进行设置。</li>
+<li>将对应的内核参数地址进行查询，并且调用新构造函数实例化与Lambda不太相同的设备端内核，以及内核参数。</li>
+<li>参数的获取应该不会受到影响，并且参数的传递过程是不透明的。例如，array_view中_sz的值就需要通过主机端传递给设备端。</li>
+</ul>
+<p>为了系统的实现这些功能，需要清晰的指明，Lambda函数中需要哪种类型的数据。表11.2中描述了图11.4中哪些数据需要在设备端和主机端使用。</p>
+<p>表11.2 将主机端的数据成员与设备端进行映射</p>
+<div class="table-wrapper"><table><thead><tr><th>数据成员</th><th>主机端</th><th>设备端</th><th>注意</th></tr></thead><tbody>
+<tr><td>array_view&lt;const float, 1&gt; va</td><td>cl_mem va._backing_storage</td><td>__global float *va_backing_storage</td><td>通过clSetKernelArg进行传递</td></tr>
+<tr><td>va的尺寸</td><td>size_t va._sz</td><td>size_t va._sz</td><td>字面方式传递</td></tr>
+<tr><td>array_view&lt;const float, 1&gt; vb</td><td>cl_mem vb._backing_storage</td><td>__global float *vb._backing_storage</td><td>通过clSetKernelArg进行传递</td></tr>
+<tr><td>vb的尺寸</td><td>size_t vb._sz</td><td>size_t vb._sz</td><td>字面方式传递</td></tr>
+<tr><td>array_view&lt;float, 1&gt; vc</td><td>cl_mem vc._backing_storage</td><td>__global float *vc._backing_storage</td><td>通过clSetKernelArg进行传递</td></tr>
+<tr><td>vc的尺寸</td><td>size_t vc._sz</td><td>size_t vc._sz</td><td>字面方式传递</td></tr>
+</tbody></table>
+</div>
+<p>根据对应关系，可以通过<code>C++ AMP</code>的parallel_for_each生成OpenCL内核。这可以通过图11.4中的<code>C++</code>模板进行实现。基于表中的对应关系，可以实现对应的parallel_for_each，如图11.5所示。</p>
+<p>{%ace edit=false, lang='c_cpp'%}
+template<class T>
+void parallel_for_each(T k){
+// Locate the kernel source file or SPIR
+// Construct an OpenCL Kernel named k::__get_kernel_name()
+// We need to look into the objects
+clSetKernelArg(..., 0, k.va._backing_storage);// cf. line5 of Figure 3
+clSetKernelArg(..., 1, k.va._sz);
+clSetKernelArg(..., 2, k.vb._backing_storage);
+clSetKernelArg(..., 3, k.vb._sz);
+clSetKernelArg(..., 4, k.vc._backing_storage);
+clSetKernelArg(..., 5, k.vc._sz);
+// Invoke the kernel
+// We need to copy the results back if necessary from vc
+}
+{%endace%}</p>
+<p>图11.5 主机端的parallel_for_each实现(概念代码)</p>
+<p>为了产生适合图11.5中的OpenCL内核点，我们需要将所要执行的对象进行遍历，并筛选出相关的对象供内核函数调用(第6-11行)。另外，生成的内核代码的参数顺序也要和主机端实现对应起来。</p>
+<p>之前，仿函数是一种向<code>C++ AMP</code>传递数据的方式，不过对于OpenCL内核来说，需要将相关的数据与内核参数顺序进行对应。基本上CPU端的地址，都会要拷贝并转化成GPU端能使用的地址：函数中有太多数据成员需要拷贝，这样的拷贝最好放在初始化的时候去做。</p>
+<p>我们之前通过值的方式进行OpenCL内存的传递。不过，复杂的地方在于我们如何将内存通过不透明的方式传递给对应句柄，需要依赖于OpenCL运行时创建对应的GPU内存空间，并将主机端的内存拷贝到GPU上。</p>
+<p>这里有的读者可能会发现，图11.5中的实例代码有点类似于对象的<a href="http://en.wikipedia.org/wiki/Serialization">序列化</a>。因为在实现的时候，我们不希望将相应的数据在外部进行存储和检索，所以我们需要压缩更多的数据，并通过<code>clSetKernelArg()</code>将相关数据设置到GPU内部。</p>
+<p>需要注意的是，其他语言中(比如：java)序列化和反序列通过代码的顺序进行反映，这种反映并不是<code>C++</code>源码级别的，所以无需对编译器进行很大的改动。<code>C++ AMP</code>编译器中，序列化和反序列化代码的顺序，都会通过枚举数据变量的方式，进行内核参数的设置。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../content/chapter11/11.3-chinese.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../content/chapter11/11.5-chinese.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../content/chapter11/11.3-chinese.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../content/chapter11/11.5-chinese.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

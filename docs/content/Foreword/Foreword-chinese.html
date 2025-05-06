@@ -1,0 +1,226 @@
+<!DOCTYPE HTML>
+<html lang="zh-hans" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>序言 - 《Heterogeneous Computing with OpenCL2.0 - Third Edition》中文版</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="作为对《Heterogeneour Computing with OpenCL2.0 (Thrid Edition)》英文版的中文翻译。">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">《Heterogeneous Computing with OpenCL2.0 - Third Edition》中文版</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="序"><a class="header" href="#序">序</a></h1>
+<p>计算时代在这已经进入异构计算时代，其意味着CPU和GPU可以同时处理同一计算任务。异构计算设计师们正在扩展异构计算的范围，为的就是让异构机器和硬件供应商能在更广阔的空间发挥自己的能量。硬件层面的变化为未来出现的新应用提供了更广阔的平台。不过，因为设计结构不同，传统编程模型在异构平台上的表现很难令人满意，这样就意味着要对新的编程模型进行学习，例如OpenCL中的编程模型。</p>
+<p>OpenCL设计之初，设计们注意到，传统算法实现可以分为两类：第一类是延迟密集型(比如：电子表格遍历)，算法工程师们使用C或C++在CPU上进行实现；第二类是吞吐密集型(比如：矩阵相乘)，算法工程师会使用CUDA在GPU上进行实现。两种方式虽有关联，但是每种方式只工作在一种处理器上——C++不能在GPU上运行，CUDA无法在CPU上运行。开发者在实现算法时，只能使用其中一种。不过，算法应该能在不同的设备上混合实现，这才是异构设备的正式能力。现在的问题是如何在这样的设备上进行混合编程？</p>
+<p>一种解决方案就是为现有的平台添加新的特性，C++和CUDA也都在积极的向好的方向发展，以迎接新硬件平台的挑战。另一种解决方式就是为异构计算创造一种新的编程模式，Apple公司为这种新的方式提供了提案和范例。这个提案被很多公司的技术部门重新定义，最终形成OpenCL。在设计之初，我很幸运是这些技术部门的一员。我们对kernel语言有着很多的预期：(1)让开发者只写一次kernel代码；(2)让已经写好的kernel代码可以在CPU，GPU，FPGA等设备上有效移植和运行；(3)kernel代码和硬件底层紧密相关，开发者就可充分利用每个设备来提升应用的性能；(4)最大抽象化编程模型，这样在每个公司的机器上只要编译一遍，就可以在其他同型号机器上使用。当然，和任何项目一样，我们想快速完成这些目标。为了加速实现，我们基于C99进行kernel语言的实现。在6个月内，OpenCL 1.0标准就诞生了，并且在1年内第一版的代码实现就出现了。之后，OpenCL就与“真正的”开发者见面了……</p>
+<p>之后发生了什么？首先，C开发者说，一些C++特性(内存模型，原子操作等等)的添加让他们的工作更加高效。CUDA开发者说，NVIDIA将所有新特性都添加入CUDA(比如：嵌套并行)，这让写程序更加简单，应用运行起来更加快。第二，硬件架构也是作为异构计算的一种探索，硬件供应商会提，如何移除CPU和GPU都需要独立内存的问题。近期，集成设备技术发展对于硬件来说是一重大的改变，这使得GPU和CPU可以放在同一芯片上(NVIDIA的tegra和AMD的APU都是这方面的例子)。第三，即使标准写的很谨慎，并且有一致性检查套件，不过在编译器实现方面，并不是总按标准来——有时同一套代码会在不同的设备上得到不同的结果。</p>
+<p>所以就会之后的再修订，并产生出更加成熟的标准——OpenCL 2.0。</p>
+<p>新标准的最大改进，就是能让开发者充分利用集成CPU和GPU的处理器。</p>
+<p>较大的改变有如下内容：</p>
+<ul>
+<li>共享虚拟内存——主机和设备端可以共享复杂数据结构指针，比如：树和链表；以减少花在数据结构转换上的精力。</li>
+<li>动态并行——可以在不用主机代码参与的情况下，进行内核的加载，为的就是减小加载内核所产生的瓶颈。</li>
+<li>统一地址空间——这样同样的函数就可以处理GPU和CPU上的数据，以减少编程的难度。</li>
+<li>C++原子操作——工作项可以跨越工作组共享数据和设备，可以让更多的算法使用OpenCL实现。</li>
+</ul>
+<p>这本书充分的介绍了OpenCL，可以作为OpenCL编程课的教材，也可以作为并行编程课的一部分。不管怎么说，这本书对于想要学习OpenCL的开发者来说是很值得拥有的。</p>
+<p>本书的作者也在高性能GPU和CPU混合编程方面，做了很多时间，花费了很多精力。我个人对他们的工作表示尊敬。之前版本对之前版本的OpenCL的覆盖的很全面，本版本将会覆盖到所有OpenCL 2.0添加的新特性。</p>
+<p>我在这里希望读者们通过这本书，能对OpenCL进行了解，并在未来写出牛逼的异构应用。</p>
+<hr />
+<p>Norm Rubin</p>
+<p>NVIDIA研究科学家</p>
+<p>东北大学访问学者</p>
+<p>2015年1月</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+                            <a rel="next prefetch" href="../../content/chapter1/1.0-chinese.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+                    <a rel="next prefetch" href="../../content/chapter1/1.0-chinese.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

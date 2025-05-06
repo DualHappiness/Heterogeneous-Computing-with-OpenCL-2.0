@@ -1,0 +1,287 @@
+<!DOCTYPE HTML>
+<html lang="zh-hans" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>4.6 基本功能函数 - 《Heterogeneous Computing with OpenCL2.0 - Third Edition》中文版</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="作为对《Heterogeneour Computing with OpenCL2.0 (Thrid Edition)》英文版的中文翻译。">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">《Heterogeneous Computing with OpenCL2.0 - Third Edition》中文版</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<p>#4.6 基本功能函数</p>
+<p>因为OpenCL意味着对于系统来说是不可知的，有些任务不能像传统的C/C++那样自动完成。不过好消息是当相关工具代码完成后，就可以是用到所有OpenCL应用代码中。</p>
+<p>##4.6.1 打印编译错误信息</p>
+<p>当我们尝试编译和链接我们的OpenCL程序对象时(使用<code>clBuildProgram()</code>、<code>clCompileProgram()</code>和<code>clLinkProgram()</code>)，OpenCL C代码可能会出现错误。出现错误时，主机端不会直接显示这些编译错误，而是直接退出。通过OpenCL API的返回值，让编程者知道是编译时候的错误，并需要手动去将编译输出打印出来。</p>
+<p>当OpenCL程序对象编译失败，一个构建日志将会产生，并保存在程序对象中。该日志可以通过API <code>clGetProgramBuildInfo()</code>检索出，传入CL_PROGRAM_BUILD_LOG到param_name，得到相应日志内容。还有与其类似的API存在，<code>clProgramBuildInfo()</code>需要调用两次：第一次是获取日志的大小，分配对应大小的数组，用来放置日志内容；第二次是将日志中的具体内容取出。</p>
+<p>本章中我们自己封装了一个名为printCompilerError()的函数，用于打印OpenCL C的编译错误信息。printCompilerError()的具体实现在程序清单4.12中。</p>
+<p>{%ace edit=false, lang='c_cpp'%}
+void printCompilerError(cl_program program, cl_device_id device)
+{
+cl_int status;</p>
+<p>size_t logSize;
+char *log;</p>
+<p>/* Get the log size */
+status = clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG, 0, NULL, &amp;logSize);
+check(status);</p>
+<p>/* Allocate space for the log */
+log = (char *)malloc(logSize);
+if (!log){
+exit(-1);
+}</p>
+<p>/* Read the log */
+status = clGetPeogramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG, logSize, log, NULL);
+check(status);</p>
+<p>/* Print the log */
+printf("%s\n", log);
+}
+{%endace%}</p>
+<p>程序清单4.12 查询程序对象编译日志的函数封装</p>
+<p>##4.6.2 创建一个程序字符串</p>
+<p>第3章中，我们使用了字符数组(const char **strings)，调用<code>clCreateProgramWithSource()</code>创建程序对象。不过，将OpenCL C源直接携程字符数组是十分不便的。因此，通常的做法都是将OpenCL C源码放置在一个单独文件中，当主机端使用到的时候对改文件进行读取。</p>
+<p>使用C++时(如代码清单4.8所示)，从文件中读取字符串就简单很多。不过，当我们使用C语言时，从文件中读取字符串就需要多做一些事情。代码清单4.13就展示了，如何使用一个C函数将文件读取到一个C的字符串(字符数组)中。</p>
+<p>{%ace edit=false, lang='c_cpp'%}
+char *readFile(const char *filename)
+{
+FILE *fp;
+char *fileData;
+long fileSize;</p>
+<p>/* Open the file */
+fp = fopen(filename, "r");
+if (!fp){
+printf("Could not open file: %s\n", filename);
+exit(-1);
+}</p>
+<p>/* Determine the file size */
+if (fseek(fp, 0, SEEK_END)){
+printf("Error read the file\n");
+exit(-1);
+}
+fileSize = ftell(fp);
+if (fileSize &lt; 0){
+printf("Error read the file\n");
+exit(-1);
+}
+if (fseek(fp, 0, SEEK_SET)){
+printf("Error read the file\n");
+exit(-1);
+}</p>
+<p>/* Read the contents */
+fileData = (char *)malloc(fileSize + 1);
+if (!fileData){
+exit(-1);
+}
+if (fread(fileData, fileSize, 1, fp) != 1){
+printf("Error reading the file\n");
+exit(-1);
+}</p>
+<p>/* Terminate the string */
+fileData[fileSize] = '\0';</p>
+<p>/* Close the file */
+if (fclose(fp)){
+printf("Error closing the file\n");
+exit(-1);
+}</p>
+<p>return fileData;
+}
+{%endace%}</p>
+<p>程序清单4.13 将OpenCL C源码从文件中读取出</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../content/chapter4/4.5-chinese.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../content/chapter4/4.7-chinese.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../content/chapter4/4.5-chinese.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../content/chapter4/4.7-chinese.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

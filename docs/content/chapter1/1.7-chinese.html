@@ -1,0 +1,244 @@
+<!DOCTYPE HTML>
+<html lang="zh-hans" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>1.7 并行性的粒度 - 《Heterogeneous Computing with OpenCL2.0 - Third Edition》中文版</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="作为对《Heterogeneour Computing with OpenCL2.0 (Thrid Edition)》英文版的中文翻译。">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">《Heterogeneous Computing with OpenCL2.0 - Third Edition》中文版</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<p>#1.7 并行性的粒度</p>
+<p>不论是在线程中使用共享内存，还在使用消息传递机制，我们都能调整线程的粒度。研究并行计算时，粒度是线程中计算量与通讯量(比如，需要在线程间进行同步的变量)。</p>
+<p>并行的粒度由算法的特点所决定，选择合适的并行粒度对于编程者来说很重要，合适的粒度能够在当前设备上获得最优的性能。有时对于粒度选择就像是在分块，然后决定哪些数据给予哪个任务，选择了合适的块大小可以就能在并行硬件上获得性能收益。如何选择并行程序的粒度，可以参考下面列出一些经验。</p>
+<p>使用细粒度并行时，需要考虑如下几点：</p>
+<ul>
+<li>计算量不要过大，这样每个线程都有足够的工作可做。</li>
+<li>尽可能减少在数据同步上的开销，这样每个线程能够独立的完成自己的任务。</li>
+<li>负载的划分也很重要，因为有大量的独立任务需要并行执行，设计良好的任务调度器都能灵活控制负载，并保证在多任务运行的同时，让线程上的达到均衡。</li>
+</ul>
+<p>使用粗粒度并行时，需要考虑如下几点：</p>
+<ul>
+<li>计算量肯定要高于细粒度并行时的计算量，因为不会像细粒度并行那样，有很多线程同时执行。</li>
+<li>编程者使用粗粒度编程时，需要了解应用的整体结构，让粗粒度中的每个线程作为任务，服务于应用。</li>
+</ul>
+<p>结合给出的建议，考虑一下自己的应用要选择哪种粒度的实现。其实，最合理的粒度取决于所要使用的算法和运行的硬件平台。大多数情况下，当同步和通讯的开销大于计算，那么将并行粒度加大，更有利于控制同步和通讯所需的过高开销。细粒度并行能减少负载不均和访存延迟在性能上的开销(对于GPU来说更是如此，其为粒度之细可以切换线程时达到零开销，同时也能隐藏访存延迟)。</p>
+<p>当一个算法需要对大量数据进行同一组操作时，就可将数据视为向量，执行同一操作时，多个数据作为输入，经过向量操作后输出多个数据。这种执行方式就是利用单指令多数据(SIMD)的方式对数据进行处理，可并行硬件可以利用这种执行方式，并行的对不同的数据进行处理。这种粒度的并行与向量的大小有关，通过SIMD执行单元的多数据处理来获得应用性能的提升。</p>
+<p>寻找和尝试最好的计算粒度时，是否考虑过为什么不将统一程序中的所有副本拷贝到其他处理单元和节点上，如果能够这样，是不是就不用理会执行单元的执行顺序，并且能让程序高效的运行在一个有着多处理器的共享系统上呢？SIMD模型与单程序多数据(SPMD)模型很相似，SPMD模型和SIMD模型都不会对指令边界进行同步的限制，并且允许这些副本任务或内核能够并发的执行。</p>
+<p>##1.7.1 数据共享与同步</p>
+<p>开发异构软件还有一个很关键的因素——数据量。像想一下，两个任务没有任何数据需要共享，当运行环境或操作系统中的运算资源充足，那么这两个任务可以并行执行。如果在系统运行第一个任务时，第二个任务需要使用到第一个任务产出的结果。要是存在这样的数据依赖关系，那么就必选要介绍一下如何在并行或并发任务时，进行数据的同步。并行程序至少需要执行到一个同步点，才能够进行数据的同步。当然，这会让编程的难度加大，让异构编程更具有挑战性。</p>
+<p>编写并发软件的时候，数据共享和同步扮演着很重要的角色。数据共享就有如下的用途：</p>
+<ul>
+<li>一个任务中的输入，依赖于另外一个任务的输出——例如：生产者-消费者模型、流水线执行模型。</li>
+<li>需要将中间结果进行综合(比如：归约，还有图1.5里的例子)。</li>
+</ul>
+<p>理想状态下，可以尝试将应用能并行的部分剥离出来，确保并行的部分没有数据依赖，不过这只是理想状态而已。栅栏和锁有时会用来做数据的同步。虽然，现在只是举了这个例子，不过在后面的章节中我们将在OpenCL中重温这个问题。OpenCL提供相应的机制，来完成主机端和设备端的数据同步，或者是完成任务间的数据同步。</p>
+<p>##1.7.2 共享虚拟内存</p>
+<p>很多异构系统，会将任务分散在不同的设备上执行，并且使用显式同步和通讯机制，来完成不同任务在不同设备上的数据同步。共享虚拟内存设置在硬件和软件层面，能够让不同的设备看到的是同一块内存。这个机制让编程更加简单，并且能节省显式的通讯开销。OpenCL 2.0标准开始支持共享虚拟内存，减少了在程序执行中高昂的通讯开销。同样，这样的机制就不需要在每个设备上都存储一组数据副本，也就可以节省内存的开销。当然，我们会在后面章节中，在与OpenCL上下文的相关章节中，讨论更多共享虚拟内存的细节。</p>
+<p>OpenCL2.0提供了三种共享虚拟内存：</p>
+<ul>
+<li>粗粒度共享缓存</li>
+<li>细粒度共享缓存</li>
+<li>系统级细粒度共享缓存</li>
+</ul>
+<p>使用共享虚拟内存需要OpenCL实现将系统中主机和设备端的地址链接起来。这就允许在OpenCL内核中使用数据结构的指针(比如：链表)，之前版本的OpenCL标准是不支持内核中使用自定义数据结构指针。粗粒度缓存支持通过API的调用，来更新整个缓存的内容。细粒度缓存和系统级细粒度的粒度为字节级，这就意味着无论是主机端，还是设备端，对数据的更新将会立即同步。细粒度共享内存是按内存一致模型中定义好的内存序，在同步点对数据进行同步。第6和第7章中，我们会对这部分内容进行更深层次的探讨。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../content/chapter1/1.6-chinese.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../content/chapter1/1.8-chinese.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../content/chapter1/1.6-chinese.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../content/chapter1/1.8-chinese.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

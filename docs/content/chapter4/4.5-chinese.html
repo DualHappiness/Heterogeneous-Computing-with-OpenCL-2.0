@@ -1,0 +1,485 @@
+<!DOCTYPE HTML>
+<html lang="zh-hans" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>4.5 生产者-消费者 - 《Heterogeneous Computing with OpenCL2.0 - Third Edition》中文版</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="作为对《Heterogeneour Computing with OpenCL2.0 (Thrid Edition)》英文版的中文翻译。">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">《Heterogeneous Computing with OpenCL2.0 - Third Edition》中文版</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<p>#4.4 生产者-消费者</p>
+<p>很多OpenCL应用中，前一个内核的输出可能就会作为下一个内核的输入。换句话说，第一个内核是<strong>生产者</strong>，第二个内核是<strong>消费者</strong>。很多应用中生产者和消费者是并发工作的，生产者只将产生的数据交给消费者。OpenCL 2.0中提供管道内存对象，用来帮助生产者-消费者这样的应用。管道所提供的潜在功能性帮助，无论生产者-消费者内核是串行执行或并发执行。</p>
+<p>本节中，我们将使用管道创建一个生产者-消费者应用，其中生产者和消费者分别用内核构成，这两个内核使用的是本章前两个例子：卷积和直方图。卷积内核将会对图像进行处理，然后使用管道将输出图像传入直方图内核中(如图4.5所示)。为了描述额外的功能，展示管道如何使用处理单元提高应用效率。本节的例子我们将使用多设备完成。卷积内核将执行在GPU设备上，直方图内核将执行在CPU设备上。多个设备上执行内核可以保证两个内核能够并发执行，其中管道就用来传输生产者需要的数据(且为消费者需要的数据)。对于管道对象的详细描述将在第6章展开。那么现在，让我们来了解一下本节例子的一些基本需求。</p>
+<p>管道内存中的数据(称为packets)组织为先入先出(FIFO)结构。管道对象的内存在全局内存上开辟，所以可以被多个内核同时访问。这里需要注意的是，管道上存储的数据，主机端无法访问。</p>
+<p>内核中管道属性可能是只读(__read_only)或只写(__write_only)，不过不能是读写。如果管道对象没有指定是只读或只写，那么编译器将默认其为只读。管道在内核的参数列表中，通过使用关键字<code>pipe</code>进行声明，后跟数据访问类型，和数据包的数据类型。例如，<code>pipe __read_only float *input</code>将会创建一个只读管道，该管道中包含的数据为单精度浮点类型。</p>
+<p><img src="../../images/chapter4/4-5.png" alt="" /></p>
+<p>图4.5 生产者内核将滤波后生成的像素点，通过管道传递给消费者内核，让消费者内核产生直方图：(a)为原始图像;(b)为滤波后图像;(c)为生成的直方图。</p>
+<p>为了访问管道，OpenCL C提供内置函数<code>read_pipe()</code>和<code>write_pipe()</code>：</p>
+<pre><code class="language-c++">int read_pipe(pipe gentype p, gentype *ptr);
+int write_pipe(pipe gentype p, const gentype *ptr);
+</code></pre>
+<p>当一个工作项调用<code>read_pipe()</code>(程序清单4.10，第16行)，一个包将从管道p中读取到ptr中。如果包读取正常，该函数返回0；如果管道为空，则该函数返回一个负值。<code>write_pipe()</code>(程序清单4.9，第50行)与读取类似，会将ptr上的包写入到管道p中。如果包写入正常，该函数返回0；如果管道已满，则该函数返回一个负值</p>
+<p>程序清单4.9和4.10展示了我们应用中内核的实现。当我们指定目标消费者内核运行在CPU时，那么只有一个工作项去创建直方图。同样，当我们显式的指定一个CPU，我们需要之间将直方图的结果存放在全局内存中(第8章将对这样的权衡做更细化的讨论)。</p>
+<p>{%ace edit=false, lang='c_cpp'%}
+__constant sampler_t sampler =
+CLK_NORMALIZED_COORDS_FALSE |
+CLK_FILTER_NEAREST          |
+CLK_ADDRESS_CLAMP_TO_EDGE;</p>
+<p>__kernel
+void producerKernel(
+image2d_t __read_only inputImage,
+pipe __write_only float *outputPipe,
+__constant float <em>filter,
+int filterWidth)
+{
+/</em> Store each work-item's unique row and column */
+int column = get_global_id(0);
+int row = get_global_id(1);</p>
+<p>/* Half the width of the filter is needed for indexing</p>
+<ul>
+<li>memory later*/
+int halfWidth = (int)(filterWidth / 2);</li>
+</ul>
+<p>/* Used to hold the value of the output pixel */
+float sum = 0.0f;</p>
+<p>/* Iterator for the filter */
+int filterIdx = 0;</p>
+<p>/* Each work-item iterates around its local area on the basis of the</p>
+<ul>
+<li>size of the filter */
+int2 coords; // Coordinates for accessing the image</li>
+</ul>
+<p>/* Iterate the filter rows <em>/
+for (int i = -halfWidth; i &lt;= halfWidth; i++)
+{
+coords.y = row + i;
+/</em> Iterate over the filter columns */
+for (int j = -halfWidth; j &lt;= halfWidth; j++)
+{
+coords.x = column + j;</p>
+<pre><code>  /* Read a pixel from the image. A single channel image
+   * stores the pixel in the x coordinate of the returned
+   * vector. */
+  float4 pixel;
+  pixel = read_imagef(inputImage, sampler, coords);
+  sum += pixel.x * filter[filterIdx++];
+}
+</code></pre>
+<p>}</p>
+<p>/* Write the output pixel to the pipe */
+write_pipe(outputPipe, &amp;sum);
+}
+{%endace%}</p>
+<p>程序清单4.9 卷积内核(生产者)</p>
+<p>{%ace edit=false, lang='c_cpp'%}
+__kernel
+void consumerKernel(
+pipe __read_only float *inputPipe,
+int totalPixels,
+__global int *histogram)
+{
+int pixelCnt;
+float pixel;</p>
+<p>/* Loop to process all pixels from the producer kernel <em>/
+for (pixelCnt = 0; pixelCnt &lt; totalPixels; pixelCnt++)
+{
+/</em> Keep trying to read a pixel from the pipe
+* until one becomes available */
+while(read_pipe(inputPipe, &amp;pixel));</p>
+<pre><code>/* Add the pixel value to the histogram */
+histogram[(int)pixel]++;
+</code></pre>
+<p>}
+}
+{%endace%}</p>
+<p>程序清单4.10 卷积内核(消费者)</p>
+<p>虽然，存储在管道中的数据不能被主机访问，不过在主机端还是需要使用对应的API创建对应的管道对象。其创建API如下所示：</p>
+<pre><code class="language-c++">cl_pipe clCreatePipe(
+  cl_context context,
+  cl_mem_flags flags,
+  cl_uint pipe_packet_size,
+  cl_uint pipe_max_packets,
+  const cl_pipe_properties *properties,
+  cl_int *errcode_ret)
+</code></pre>
+<p>我们需要考虑两个内核不是并发的情况；因此，我们就需要创建足够大的管道对象能存放下图像元素数量个包：</p>
+<pre><code class="language-c++">cl_mem pipe = clCreatepipe(context, 0, sizeof(float), imageRows * imageCols, NULL, &amp;status);
+</code></pre>
+<p>利用多个设备的话，就需要在主机端多加几步。当创建上下文对象时，需要提供两个设备(一个CPU设备，一个GPU设备)，并且每个设备都需要有自己的命令队列。另外，程序对象需要产生两个内核。加载内核是，需要分别入队其各自的命令队列：生产者(卷积)内核需要入队GPU命令队列，消费者(直方图)内核需要入队CPU命令队列。完整的代码在程序清单4.11中。</p>
+<p>{%ace edit=false, lang='c_cpp'%}
+/* System includes */
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;</p>
+<p>/* OpenCL includes */
+#include &lt;CL/cl.h&gt;</p>
+<p>/* Utility functions */
+#include "utils.h"
+#include "bmp-utils.h"</p>
+<p>/* Filter for the convolution */
+static float gaussianBlurFilter[25] = {
+1.0f / 273.0f, 4.0f / 273.0f, 7.0f / 273.0f, 4.0f / 273.0f, 1.0f / 273.0f,
+4.0f / 273.0f, 16.0f / 273.0f, 26.0f / 273.0f, 16.0f / 273.0f, 4.0f / 273.0f,
+7.0f / 273.0f, 26.0f / 273.0f, 41.0f / 273.0f, 26.0f / 273.0f, 7.0f / 273.0f,
+4.0f / 273.0f, 16.0f / 273.0f, 26.0f / 273.0f, 16.0f / 273.0f, 4.0f / 273.0f,
+1.0f / 273.0f, 4.0f / 273.0f, 7.0f / 273.0f, 4.0f / 273.0f, 1.0f / 273.0f
+};
+static const int filterWidth = 5;
+static const int filterSize = 25 * sizeof(float);</p>
+<p>/* Number of histogram bins */
+static const int HIST_BINS = 256;</p>
+<p>int main(int argc, char <em>argv[])
+{
+/</em> Host data */
+float *hInputImage = NULL;
+int *hOutputHistogram = NULL;</p>
+<p>/* Allocate space for the input image and read the</p>
+<ul>
+<li>data from dist */
+int imageRows;
+int imageCols;
+hInputImage = readBmpFloat("../../Images/cat.bmp", &amp;imageRows, &amp;imageCols);
+const int imageElements = imageRows * imageCols;
+const size_t imageSize = imageElements * sizeof(float);</li>
+</ul>
+<p>/* Allocate space for the histogram on the host */
+const int histogramSize = HIST_BINS * sizeof(int);
+hOutputHistogram = (int *)malloc(histogramSize);
+if (!hOutputHistogram){ exit(-1); }</p>
+<p>/* Use this to check the output of each API call */
+cl_int status;</p>
+<p>/* Get the first platform */
+cl_platform_id platform;
+status = clGetPlatformIDs(1, &amp;platform, NULL);
+check(status);</p>
+<p>/* Get the devices */
+cl_device_id devices[2];
+cl_device_id gpuDevice;
+cl_device_id cpuDevice;
+status = clGetDeviceIDs(platform, CL_DEVICE_TYPE_CPU, 1, &amp;gpuDevice, NULL);
+status = clGetDeviceIDs(platform, CL_DEVICE_TYPE_GPU, 1, &amp;cpuDevice, NULL);
+check(status);
+devices[0] = gpuDevice;
+devices[1] = cpuDevice;</p>
+<p>/* Create a context and associate it with the devices */
+cl_context context;
+context = clCreateContext(NULL, 2, devices, NULL, NULL, &amp;status);
+check(status);</p>
+<p>/* Create the command-queues */
+cl_command_queue gpuQueue;
+cl_command_queue cpuQueue;
+gpuQueue = clCreateCommandQueue(context, gpuDevice, 0, &amp;status);
+check(status);
+cpuQueue = clCreateCommandQueue(context, cpuDevice, 0, &amp;status);
+check(status);</p>
+<p>/* The image desriptor describes how the data will be stored</p>
+<ul>
+<li>in memory. This descriptor initializes a 2D image with no pitch*/
+cl_image_desc desc;
+desc.image_type = CL_MEM_OBJECT_IMAGE2D;
+desc.image_width = imageCols;
+desc.image_height = imageRows;
+desc.image_depth = 0;
+desc.image_array_size = 0;
+desc.image_row_pitch = 0;
+desc.image_slice_pitch = 0;
+desc.num_mip_levels = 0;
+desc.num_samples = 0;
+desc.buffer = NULL;</li>
+</ul>
+<p>/* The image format descibes the properties of each pixel */
+cl_image_format format;
+format.image_channel_order = CL_R; // single channel
+format.image_channel_data_type = CL_FLOAT;</p>
+<p>/* Create the input image and initialize it using a</p>
+<ul>
+<li>pointer to the image data on the host. */
+cl_mem inputImage;
+inputImage = clCreateImage(context, CL_MEM_READ_ONLY, &amp;format, &amp;desc, NULL, NULL);</li>
+</ul>
+<p>/* Create a buffer object for the ouput histogram */
+cl_mem ouputHistogram;
+outputHisrogram = clCreateBuffer(context, CL_MEM_WRITE_ONLY, &amp;format, &amp;desc, NULL, NULL);</p>
+<p>/* Create a buffer for the filter */
+cl_mem filter;
+filter = clCreateBuffer(context, cl_MEM_READ_ONLY, filterSize, NULL, &amp;status);
+check(status);</p>
+<p>cl_mem pipe;
+pipe = clCreatePipe(context, 0, sizeof(float), imageRows * imageCols, NULL, &amp;status);</p>
+<p>/* Copy the host image data to the GPU */
+size_t origin[3] = {0,0,0}; // Offset within the image to copy from
+size_t region[3] = {imageCols, imageRows, 1}; // Elements to per dimension
+status = clEnqueueWriteImage(gpuQueue, inputImage, CL_TRUE, origin, region, 0, 0, hInputImage, 0, NULL, NULL);
+check(status);</p>
+<p>/* Write the filter to the GPU */
+status = clEnqueueWriteBuffer(gpuQueue, filter, CL_TRUE, 0, filterSize, gaussianBlurFilter, 0, NULL, NULL);
+check(status);</p>
+<p>/* Initialize the output istogram with zeros */
+int zero = 0;
+status = clEnqueueFillBuffer(cpuQueue, outputHistogram, &amp;zero, sizeof(int), 0, histogramSize, 0, NULL, NULL);
+check(status);</p>
+<p>/* Create a program with source code <em>/
+char <em>programSource = readFile("producer-consumer.cl");
+size_t programSourceSize = strlen(programSource);
+cl_program program = clCreateProgramWithSource(context, 1, (const char</em></em>)&amp;programSource, &amp;programSourceLen, &amp;status);
+check(status);</p>
+<p>/* Build (compile) the program for the devices */
+status = clBuildProgram(program, 2, devices, NULL, NULL, NULL);
+if (status != CL_SUCCESS)
+{
+printCompilerError(program, gpuDevice);
+exit(-1);
+}</p>
+<p>/* Create the kernel */
+cl_kernel producerKernel;
+cl_kernel consumerKernel;
+producerKernel = clCreateKernel(program, "producerKernel", &amp;status);
+check(status);
+consumerKernel = clCreateKernel(program, "consumerKernel", &amp;status);
+check(status);</p>
+<p>/* Set the kernel arguments */
+status = clSetKernelArg(producerKernel, 0, sizeof(cl_mem), &amp;inputImage);
+status |= clSetKernelArg(producerKernel, 1, sizeof(cl_mem), &amp;pipe);
+status |= clSetKernelArg(producerKernel, 2, sizeof(int), &amp;filterWidth);
+check(status);</p>
+<p>status |= clSetKernelArg(consumerKernel, 0, sizeof(cl_mem), &amp;pipe);
+status |= clSetKernelArg(consumerKernel, 1, sizeof(int), &amp;imageElements);
+status |= clSetKernelArg(consumerKernel, 2, sizeof(cl_mem), &amp;outputHistogram);
+check(status);</p>
+<p>/* Define the index space and work-group size */
+size_t producerGlobalSize[2];
+producerGlobalSize[0] = imageCols;
+producerGlobalSize[1] = imageRows;</p>
+<p>size_t producerLocalSize[2];
+producerLocalSize[0] = 8;
+producerLocalSize[1] = 8;</p>
+<p>size_t consumerGlobalSize[1];
+consumerGlobalSize[0] = 1;</p>
+<p>size_t consumerLocalSize[1];
+consumerLocalSize[0] = 1;</p>
+<p>/* Enqueue the kernels for execution */
+status  = clEnqueueNDRangeKernel(gpuQueue, producerKernel, 2, NULL, producerGlobalSize, producerLocalSize, 0, NULL, NULL);</p>
+<p>status = clEnqueueNDRangeKernel(cpuQueue, consumerKernel, 2, NULL, consumerGlobalSize, consumerLocalSize, 0, NULL, NULL);</p>
+<p>/* Read the output histogram buffer to the host */
+status = clEnqueueReadBuffer(cpuQueue, outputHistogram, CL_TRUE, 0, histogramSize, hOutputHistogram, 0, NULL, NULL);
+check(status);</p>
+<p>/* Free OpenCL resources */
+clReleaseKernel(producerKernel);
+clReleaseKernel(consumerKernel);
+clReleaseProgram(program);
+clReleaseCommandQueue(gpuQueue);
+clReleaseCommandQueue(cpuQueue);
+clReleaseMemObject(inputImage);
+clReleaseMemObject(outputHistogram);
+clReleaseMemObject(filter);
+clReleaseMemObject(pipe);
+clReleaseContext(context);</p>
+<p>/* Free host resources */
+free(hInputImage);
+free(hOutputHistogram);
+free(programSource);</p>
+<p>return 0;
+}
+{%endace%}</p>
+<p>程序清单4.11 生产者-消费者主机端完整代码</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../content/chapter4/4.4-chinese.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../content/chapter4/4.6-chinese.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../content/chapter4/4.4-chinese.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../content/chapter4/4.6-chinese.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

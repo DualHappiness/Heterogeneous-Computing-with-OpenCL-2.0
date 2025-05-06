@@ -1,0 +1,280 @@
+<!DOCTYPE HTML>
+<html lang="zh-hans" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>6.1 内存对象 - 《Heterogeneous Computing with OpenCL2.0 - Third Edition》中文版</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="作为对《Heterogeneour Computing with OpenCL2.0 (Thrid Edition)》英文版的中文翻译。">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">《Heterogeneous Computing with OpenCL2.0 - Third Edition》中文版</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<p>#6.1 内存对象</p>
+<p>OpenCL定义了三种内存对象——数组，图像和管道——这几种内存对象可以通过主机端的API进行创建。数组和图像内存对象上存储的数据，可以在主机端和设备端进行随机访问。管道对象上的数据对象只能在内核端先进先出(FIFO)，并且主机端无法访问这些数据。</p>
+<p>数组对象可以看做为CPU上的一维数组，并且其分配过程与C的malloc()函数类似。数组对象可以包含任何标量数据，向量数据或自定义结构体。数据在数组中是顺序存储的，这样OpenCL内核就能以随机访问的方式对数组进行访问(就如同C中的一维数组)。</p>
+<p>图像对象就有些不同，其数据的布局或存放方式在硬件上进行过一些优化，这样指针就很难直接一个一个的访问对应的数据，并且硬件上的数据布局方式对于开发者来说是不可见的。这样，内核端只能使用内置函数对图像对象进行访问。因为GPU设计之初就是为了处理图形任务，所以GPU对图像数据访问效率已有较高优化。图像有三个优势：</p>
+<ol>
+<li>GPU上的层级缓存和数据流结构就是为了优化访问图像类型数组所准备</li>
+<li>GPU驱动会在硬件层面上优化图像数据的排布，从而提升访问图像数据的效率，尤其是二维图像模式</li>
+<li>硬件支持图像是一个很复杂的数据访问过程，在这个过程中硬件会将一些存储的数据进行压缩</li>
+</ol>
+<p>下面的几个子节，将分别对这三种内存对象进行更为详尽的描述。</p>
+<p>##6.1.1 数组对象</p>
+<p>数组对象的分配有点类似使用malloc()，其分配方式非常简单。创建数组对象只需要提供上下文对象，数组大小，以及一些标识就可以。创建数组对象的API为<code>clCreateBuffer()</code>。</p>
+<pre><code class="language-c++">cl_mem
+clCreateBuffer(
+  cl_context context,
+  cl_mem_flags flags,
+  size_t size,
+  void *host_ptr,
+  cl_int *err)
+</code></pre>
+<p>函数会返回一个数组对象，如果需要将错误码传出，则需要传入最后一个参数。flags参数可以将数组配置成只读或只写的数据，以及设置其他分配选项。例如，下面的代码，我们就创建了一个只读的数组对象，其存储的数据与主机端a数组数分布相同，二者也具有同样的大小。这里，我们将详细讨论一些分配选项在之后的章节(例如：CL_MEM_USE_HOST_PTR)。错误码将从err传出，对应的错误码在OpenCL标准文档中都有定义。通常OpenCL函数执行成功，都会以CL_SUCCESS作为错误码返回。</p>
+<p>{%ace edit=false, lang='c_cpp'%}
+cl_int err;
+int a[16];</p>
+<p>cl_mem newBuffer = clCreateBuffer(
+context,
+CL_MEM_READ_ONLY | CL_MEM_USE_HOST_PTR,
+16 * sizeof(int),
+a,
+&amp;err);</p>
+<p>if (err != CL_SUCCESS){
+// Handle error as necessary
+}
+{%endace%}</p>
+<p>OpenCL也支持<em>子数组对象</em>(subbuffer)，也就是可以将单独的数组对象再进行划分为更小的数组对象，这些数组对象可以相互覆盖，可以读或写和拷贝，以及和其父数组以相同的方式使用。注意有覆盖和包含关系的子数组对象，会让其父数组对象结构变的更加复杂，并且在实际使用过程中这种情况会造成一些未定义的行为。</p>
+<p>##6.1.2 图像对象</p>
+<p>OpenCL中，图像与数组对象有三点不同：</p>
+<ol>
+<li>图像数据排布的不透明性，使其不能直接在内核中使用指针进行数据读取</li>
+<li>多维结构</li>
+<li>图像对数据成员有一定的要求，并不能像数组那让接受任意数据类型</li>
+</ol>
+<p>图像对象之所以在OpenCL中存在，因为GPU硬件设计已经对图像的存储方式进行过优化，这样会让设备在访问图像数据时的效率更高。访问图像的内置函数，并不能像数组对象那样提供各种方式的访存模式，不过其能作用就是能让一些滤波方式在硬件方面得到很好的支持，从而具有较高的效率。滤波操作中，会有基于一组以特定方式排布的像素进行变换，高效的内存访问则会对滤波操作进行加速。这些操作需要多次读取的长指令队列，不过有硬件的支持其执行效率很高。</p>
+<p>图像数据可在内核端，通过特定的函数进行访问(第7章设备端内存模型会详细讨论)。主机端访问图像对象的方式与数组对象没有太大的区别，不过对图像对象操作的主机函数支持多维度的寻址。<code>clEnqueueReadImage()</code>更像<code>clEnqueueReadBufferRect()</code>，而非<code>clEnqueuReadBuffer()</code>。</p>
+<p>图像对象和数组对象最大的区别，就是图像对象支持的格式。图像格式包括通道序和通道类型。通道顺序定义了有多少通道需要使用——例如,CL_RGB，CL_R或CL_ARGB。通道类型就是要选择通道内数据存储的格式，从CL_FLOAT到充分利用内存的CL_UNORM_SHORT_565(其将一个16比特字打包后放入内存)。当内核代码要访问这些数据时，读取到的数据结果都上转换成标准的OpenCL C类型数据。图像格式支持的列表可以通过<code>clGetSupportedImageFormats()</code>获取。</p>
+<p>图像对象可通过<code>clCreateImage()</code>进行创建，其声明如下：</p>
+<pre><code class="language-c++">cl_mem
+clCreateImage(
+  cl_context context,
+  cl_mem_flags flags,
+  const cl_image_format *image_format,
+  const cl_image_desc *image_desc,
+  void *host_ptr,
+  cl_int *errcode_ret)
+</code></pre>
+<p>context，flags和host_ptr这些与创建数组对象所需要的参数一致。图像类型(image_format)和图像描述符(image_desc)参数定义了图像的维度，数据格式和数据分布。这种结构已经在第4章进行详细的描述(一个初始化图像对象的完整例子)。</p>
+<p>##6.1.3 管道对象</p>
+<p>OpenCL 2.0支持一种新的内存对象——管道对象。管道对象的数据结构是FIFO结构，其用来将一个内核对象的数据传递给另一个内核对象。因为之前OpenCL标准中的内存模型十分松散，所以根本无法实现管道，因为没有办法在上一个内核结束前确定内存的状态。通道的意义就是为了在两个内核中共享一部分数据，并且保证这些共享数据的状态。这种标识对于处理器来说是一种趋势，对于支持管道对象的任意设备，至少有能力实现内核间共享数据的原子操作，并且必须要有一套内存一致模型来支持内存获取和释放语义。</p>
+<p>可以设想一下，如果设备具有这样的能力，编程者都可以用一个数组对象来实现属于自己的“管道对象”。OpenCL 2.0的内存模型中这个方案是可行的，其背后是很多设计师和工程师的努力。管道具有并发“生产者-消费者”机制，这种方式比起之前的标准，让很多问题变的简单了许多(例如，当每个工作项生成了大量的输出数据，就可以对这些数据进行打包处理)。在同一设备上执行“生产者-消费者”任务时，就可以使用管道对象，这样也允许硬件供应商能将这块内存映射到一个延迟较低的内存区域中。管道对象是不允许主机端对其进行读写的，所以访问管道对象属于设备端内存模型。</p>
+<p>管道数据通常称为<em>包</em>(packets)，其包含了OpenCL C或用户自定义的类型。创建管道对象的API为<code>clCreatePipe()</code>，其声明如下：</p>
+<pre><code class="language-c++">cl_mem
+clCreatePipe(
+  cl_context context,
+  cl_mem_flags flags,
+  cl_uint pipe_packet_size,
+  cl_uint pipe_max_packets,
+  const cl_pipe_properties *properties,
+  cl_int *errcode_ret)
+</code></pre>
+<p>当创建一个管道，需要提供包大小(pipe_packed_size)和最大包数(pipe_max_packets)。如同其他创建内存对象的API，这个API也需要设置一些与内存相关标识。对于管道对象来说，只有设置CL_MEM_READ_WRITE标识是合法的，其也是管道对象默认的标识参数。以后，管道对象不可在主机端访问，即便是编程者没有意识到，也需要使用CL_MEM_HOST_NO_ACCESS来显式表明管道对象在主机端不可访问。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../content/chapter6/6.0-chinese.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../content/chapter6/6.2-chinese.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../content/chapter6/6.0-chinese.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../content/chapter6/6.2-chinese.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

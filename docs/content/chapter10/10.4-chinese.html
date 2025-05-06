@@ -1,0 +1,276 @@
+<!DOCTYPE HTML>
+<html lang="zh-hans" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>10.4 如何使用AMD CodeXL - 《Heterogeneous Computing with OpenCL2.0 - Third Edition》中文版</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="作为对《Heterogeneour Computing with OpenCL2.0 (Thrid Edition)》英文版的中文翻译。">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">《Heterogeneous Computing with OpenCL2.0 - Third Edition》中文版</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<p>#10.4 如何使用AMD CodeXL</p>
+<p>性能分析模式下，CodeXL可以作为性能分析工具将OpenCL运行时和AMD GPU执行时的数据汇总在一起。我们可以通过这种方式找到应用的瓶颈所在，并且找到最佳的方式在AMD平台上对应用性能进行优化。在这之后，我们将性能分析模式下的CodeXL称为<em>分析器</em>(profiler)。</p>
+<p>为了在Visual Studio中使用CodeXL插件，只需要简单的将解决方案导入Visual Studio即可。通常，CodeXL事件浏览窗口和Visual Studio解决方案窗口停靠在一起。再将某一个C/C++工程设置为启动工程，并且在CodeXL菜单栏中选定Proflie Mode。这个模式可以获取到的信息如下所示：</p>
+<ul>
+<li>GPU应用时间线轨迹</li>
+<li>GPU在执行内核时的性能计数</li>
+<li>收集CPU在执行时的性能信息</li>
+</ul>
+<p>菜单栏中，我们可以收集一个应用的时间线轨迹或GPU性能计数器。当应用完成执行，分析器会对收集到的信息进行处理，然后在界面上进行显示。CodeXL独立运行时也可以完成该功能，可以通过一个命令工具——sprofile(在CodeXL的安装路径下)。使用sprofile的方式不需要加载源码，只需要执行对应的二进制文件即可。</p>
+<p>每一次执行对于分析器来说都是一个新的任务，所以分析器会将其分为多个任务。图10.1中展示了具有三个任务的CodeXL分析器。</p>
+<p><img src="../../images/chapter10/10-1.png" alt="" /></p>
+<p>图10.1 CodeXL分析模式下的任务。两个任务获取的的是应用时间线，另一个获取的是GPU计数器</p>
+<p>##10.4.1 OpenCL应用的跟踪信息</p>
+<p>OpenCL跟踪链表中的信息都是有关OpenCL API的调用。对于每次的API调用，分析器都会记录其输入参数，以及输出结果。另外，分析器同时也记录了CPU上代码的时间戳和OpenCL运行时的时间戳信息。输出数据记录在一个文本格式的文件中，称为应用性能跟踪文件。</p>
+<p>对于OpenCL程序的跟踪对于理解复杂程序的高级框架是十分有帮助的。OpenCL应用的跟踪数据可助我们了解如下信息：</p>
+<ul>
+<li>通过时间线的角度，我们可以了解应用的高级架构。并且，可以确定应用中创建的OpenCL上下文数量，以及命令队列创建的数量和其在应用中的应用。内核执行和数据传输操作的时间也在时间线上可见。</li>
+<li>总结页面可以帮助我们了解，当前应用的瓶颈是否在内核执行或数据传输上。我们找到最耗时的10个内核和数据传输操作，以及API调用(调用次数最多的API或执行最耗时的API)。</li>
+<li>可以通过API跟踪的页面，来了解和调试所有API的输入参数和输出数据。</li>
+<li>查看警告，并尝试使用最佳的方式调用OpenCL API。</li>
+</ul>
+<p>应用的时间线(如图10.2所示)提供了应用在执行时的甘特图。最顶部的时间线是时间格，用来表示该应用总体的耗时情况。其计时的方式是以第一次OpenCL的调用作为起始，最后一个OpenCL调用作为结束。下面的时间线中，主机端线程对OpenCL的调用都展示在事件先中。对于每个主机端线程，OpenCL API调用都会在甘特图中绘制成一个单独的时间格。</p>
+<p><img src="../../images/chapter10/10-2.png" alt="" /></p>
+<p>图10.2 Nbody应用在CodeXL性能分析模式下的时间线。我们能看到数据传输和内核运行的耗时情况。</p>
+<p>下面的主机线程中，OpenCL树展示了所有创建的上下文和命令队列，以及数据传输操作和每个命令队列中的内核执行事件。我们可以对事件线进行缩放、平移、折叠和展开，或选择一段感兴趣的区域。我们也可以通过相关的API调用，看到API的时间格，反之亦然。时间线另外一个很实用的功能是，右键点击对应的API，可以显示该API在源码中的位置。</p>
+<p>用时间线对于调试OpenCL应用十分有用。下面介绍一下时间线所带来的好处：</p>
+<ul>
+<li>你需要确定你应用中的外部框架是否正确。通过测试时间线，你可以确定队列和上下文对象的创建，与你的期望是否一致。</li>
+<li>可以增加对同步操作的信心。例如，当内核A需要依赖一个内存操作，并且这个内存的数据来源于内核B，那么内核A就应该出现在内核B之后的时间线中。通过传统的调试方式，我们很难找到同步所引发的错误。</li>
+<li>最后，你可以了解到应用是利用硬件是否高效。时间线展示了同时执行的独立内核和数据传输操作。</li>
+</ul>
+<p>##10.4.2 跟踪主机端API</p>
+<p>主机端API跟踪展示(如图10.3)，列出了每个主机线程调用OpenCL API的情况。这里我们使用AMD OpenCL SDK中的Nbody应用作为测试用例。每个调用过OpenCL API的线程都会展示在表中。</p>
+<p><img src="../../images/chapter10/10-3.png" alt="" /></p>
+<p>图10.3 Nbody应用在CodeXL性能分析模式下对API调用的跟踪</p>
+<p>主机API跟踪包含一系列主机线程对OpenCL API的调用。对于每一次调用，列表中都会用相应的索引(根据执行顺序)进行表示，API函数的名称，传入参数和返回值都会进行记录。当要了解传入的参数时，分析器就会尝试去解应用指针、反编码枚举值等方式，给开发者提供尽可能多有用的信息。双击主机API，就可以看到对应API在主机线程中对应时间线的位置。</p>
+<p>主机API跟踪允许我们对每个API的输入和输出结果进行分析。例如，可以简单查询所有API是否都返回了CL_SUCCESS，或对应的数组对象是否使用正确的标识进行创建。这里我们也可以看到冗余的API使用。</p>
+<p>##10.4.3 总结页面信息</p>
+<p>应用跟踪事件时间线同样也提供对OpenCL应用的性能总结。通常，会告诉我们应用的瓶颈所在。总结页面在每个CodeXL分析器中都有，可以通过打开对应的界面看到。总结页面的主要汇总信息介绍如下：</p>
+<ul>
+<li><strong>API总结页面</strong>：页面展示了主机端调用的所用OpenCL API</li>
+<li><strong>上下文总结页面</strong>：页面统计了每个上下文对象上的所有内核和数据传输操作，也展示了数组和图像对象创建的个数。</li>
+<li><strong>内核总结页面</strong>：页面统计了应用所创建的所有内核。</li>
+<li><strong>10个最耗时数据传输操作的总结页面</strong>：页面将数据传输操作耗时进行排序，展示10个耗时最长的数据传输操作。</li>
+<li><strong>10个最耗时内核的总结页面</strong>：页面将内核执行耗时进行排序，展示了10个耗时最长的内核。</li>
+<li><strong>警告/错误页面</strong>：展示应用可能存在的问题。其能为未释放的OpenCL资源、OpenCL API失败的调用，以及如何改进能获取更优的性能。点击相关OpenCL API的超链接，就能看到相应API的一些信息。</li>
+</ul>
+<p>上下文总结表中，就能看到内核执行或数据传输是如何限制应用的性能。如果应用的性能瓶颈在于数据传输，那么就意味着有大量数据尽心传输(读、写、拷贝或映射)。之后我们可对相关算法进行分析，看是否能减少相应的数据传输。总结页面中的时间线可以帮助我们了解，应用的执行过程中，是否使用了最高效的数据传输方式——同内核执行并发执行。</p>
+<p>如果应用的瓶颈在于内核执行，就要看一下哪个内核的耗时过长。如果确定了对应的内核，将可以通过GPU执行的性能数据，对该内核的瓶颈进行具体分析。</p>
+<p>##10.4.4 GPU内核性能计数</p>
+<p>API跟踪只提供时间戳信息，通过时间戳我们可以得到内核执行的时间。其不会告诉我们内核中的性能瓶颈在哪里。当我们使用跟踪数据发现哪个内核需要优化时，我们可以收集相关内核在GPU设备上的执行信息。</p>
+<p>GPU内核性能计数器可以用来在内核执行时，发现内核可能存在的瓶颈。这些数据可以提供给开发者，让开发者来确定具体的瓶颈。AMD Radeon GPU支持性能计数器，GPU是否支持性能计数器的信息可以在CodeXL的文档中找到。</p>
+<p><img src="../../images/chapter10/10-4.png" alt="" /></p>
+<p>图10.4 CodeXL分析器展示了Nbody内核在GPU上执行的性能计数情况</p>
+<p>图10.4中展示了Nbody内核GPU上的性能计数情况。使用性能计数器，我们可以做下面的事情：</p>
+<ul>
+<li>决定内核所需要分配的资源数量(通用寄存器，局部内存大小)。这些资源会受到正在GPU中运行的波面阵的影响。可以分配较高的波面阵数量来隐藏数据延迟。</li>
+<li>决定在GPU运行指令时，所要是用ALU的数量，以及全局和局部内存的数量。</li>
+<li>可以了解缓存的命中率，以及写入或读取全局内存中的数据量。</li>
+<li>决定使用相应的向量ALU单元和内存单元。</li>
+<li>了解任意局部内存(局部共享数据)的块冲突，SIMD单元尝试读取或写入同一个局部共享数据的相同位置，这样导致访存串行化，并且增加访问延迟。</li>
+</ul>
+<p>输出数据记录在一个csv(comma-separated-variable)格式的文件中。你可以点击相应的内核名称，进入“Method”列找到OpenCL内核源码，AMD中间码(IL，Intermediate language)，以及GPU指令集(ISA)，或是内核的CPU汇编代码。根据图10.4中的信息，我们可以尝试对内核性能进行优化。例如，尽管有大量的向量指令(626723每工作项)，没有分支(VALU利用率100%)，对应矢量ALU在执行的时候也只有59%的使用率。每个工作项只有两个获取指令，所以内核中不可能被内存访问所限制，所以原因可能是缓存的命中率过低。这就解释了为什么矢量ALU使用率低下的原因。重构代码当然是一个不错的选择，不过工作量有点大，也可以尝试增加波面阵的数量，用来掩盖缓存未命中的延迟。这两种选择都可以对应用进行优化。</p>
+<p>##10.4.5 使用CodeXL对CPU性能进行分析</p>
+<p>CodeXL也提供了很多CPU分析方式。CodeXL对CPU代码的分析是通过基于指令的采样，或是基于时间的采样获得。CPU性能数据有助于开发者对分支、数据访问、指令访问和L2缓存的行为进行了解，从而进行研究。</p>
+<p>本章着重是告诉OpenCL开发者如何使用CodeXL，如果读者想要了解CodeXL对CPU的分析详情，可以阅读最先版本的CodeXL的用户指南。用户指南的获取地址为：http://developer.amd.com/tools-and-sdks/opencl-zone/codexl/ [译者注：书中的地址已经404，<a href="http://gpuopen.com/compute-product/codexl/?webSyncID=dcc7dd2d-c047-1d25-0893-e75291622902&amp;sessionGUID=9a4a8d26-e132-c584-67b8-e88956971a45">新地址</a>]</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../content/chapter10/10.3-chinese.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../content/chapter10/10.5-chinese.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../content/chapter10/10.3-chinese.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../content/chapter10/10.5-chinese.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

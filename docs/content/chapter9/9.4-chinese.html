@@ -1,0 +1,240 @@
+<!DOCTYPE HTML>
+<html lang="zh-hans" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>9.4 性能分析 - 《Heterogeneous Computing with OpenCL2.0 - Third Edition》中文版</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="作为对《Heterogeneour Computing with OpenCL2.0 (Thrid Edition)》英文版的中文翻译。">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">《Heterogeneous Computing with OpenCL2.0 - Third Edition》中文版</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<p>#9.4 性能分析</p>
+<p>为了展示不同的内核实现对于性能的影响，我们将这些内核都在Radeon HD 7970 GPU上执行了一遍。为了展示对不同数据大小的性能优化，我们也生成除了对应的SURF描述符和集群质心。生成的SURF描述符数量为4096，16384和65536。同时，对应质心的数量为16,64和256。我们选取数量较大的SURF特征，是因为对于一张高分辨率的图来说，通常都包含成千上万个特征。不过，对于质心来说其数量就相对较少，如果质心的数量过多会影响图像分类的准确度。</p>
+<p>这里的性能数据是由相应的性能分析工具给出，这里我们使用了AMD公司的CodeXL，第10章中我们会对该工具进行介绍。本章主要描述对于OpenCL内核代码进行优化后的性能情况。这里还需要注意的是，目标平台的架构对于优化代码来说也有很大的影响。</p>
+<p>##9.4.1 GPU性能</p>
+<p>我们将GPU1内核作为OpenCL内核实现的基线。在使用GPU2处理描述符和质心前，我们是用到了矩阵转置对描述符进行了转置操作。转置操作属于另外一个内核，为了避免这个因素影响我们之后优化的内核，这里将转置的时间单独列出来，在表9.1中展示。那么第二个内核，也就是直方图内核的性能数据在表9.2中展示。</p>
+<p>表9.1 转置内核执行的时间</p>
+<div class="table-wrapper"><table><thead><tr><th>特征数量</th><th>转置内核耗时(ms)</th></tr></thead><tbody>
+<tr><td>4096</td><td>0.05</td></tr>
+<tr><td>16,384</td><td>0.50</td></tr>
+<tr><td>65,536</td><td>2.14</td></tr>
+</tbody></table>
+</div>
+<p>表9.2 直方图——不同内核实现的耗时统计</p>
+<div class="table-wrapper"><table><thead><tr><th>集群数量</th><th>SURF描述符数量</th><th>GPU1</th><th>GPU2</th><th>GPU3</th><th>GPU4</th><th>GPU5</th></tr></thead><tbody>
+<tr><td>8</td><td>4096</td><td>0.41</td><td>0.27</td><td>0.10</td><td>0.17</td><td>0.09</td></tr>
+<tr><td>8</td><td>16,348</td><td>3.60</td><td>0.28</td><td>0.17</td><td>0.69</td><td>0.19</td></tr>
+<tr><td>8</td><td>65,536</td><td>15.36</td><td>1.05</td><td>0.59</td><td>1.31</td><td>0.74</td></tr>
+<tr><td>16</td><td>4096</td><td>0.77</td><td>0.53</td><td>0.19</td><td>0.28</td><td>0.14</td></tr>
+<tr><td>16</td><td>16,348</td><td>7.10</td><td>0.53</td><td>0.32</td><td>0.57</td><td>0.29</td></tr>
+<tr><td>16</td><td>65,536</td><td>30.41</td><td>1.47</td><td>1.17</td><td>2.26</td><td>1.12</td></tr>
+<tr><td>64</td><td>4096</td><td>6.00</td><td>3.53</td><td>1.34</td><td>1.00</td><td>0.43</td></tr>
+<tr><td>64</td><td>16,348</td><td>28.28</td><td>2.11</td><td>1.20</td><td>2.96</td><td>0.86</td></tr>
+<tr><td>64</td><td>65,536</td><td>122.09</td><td>5.80</td><td>4.65</td><td>9.04</td><td>3.87</td></tr>
+<tr><td>128</td><td>4096</td><td>4.96</td><td>4.04</td><td>1.47</td><td>1.95</td><td>0.81</td></tr>
+<tr><td>128</td><td>16,348</td><td>55.70</td><td>4.27</td><td>2.40</td><td>5.89</td><td>1.61</td></tr>
+<tr><td>128</td><td>65.536</td><td>243.30</td><td>11.63</td><td>9.29</td><td>17.46</td><td>6.43</td></tr>
+<tr><td>256</td><td>4096</td><td>10.49</td><td>8.06</td><td>2.84</td><td>4.35</td><td>1.57</td></tr>
+<tr><td>256</td><td>16,348</td><td>109.67</td><td>8.62</td><td>4.77</td><td>11.44</td><td>3.13</td></tr>
+<tr><td>256</td><td>65,536</td><td>488.54</td><td>23.28</td><td>18.71</td><td>34.73</td><td>13.97</td></tr>
+</tbody></table>
+</div>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../content/chapter9/9.3-chinese.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../content/chapter9/9.5-chinese.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../content/chapter9/9.3-chinese.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../content/chapter9/9.5-chinese.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

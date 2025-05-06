@@ -1,0 +1,302 @@
+<!DOCTYPE HTML>
+<html lang="zh-hans" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>11.11 完整例子:二项式 - 《Heterogeneous Computing with OpenCL2.0 - Third Edition》中文版</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="作为对《Heterogeneour Computing with OpenCL2.0 (Thrid Edition)》英文版的中文翻译。">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">《Heterogeneous Computing with OpenCL2.0 - Third Edition》中文版</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<p>#11.11 完整例子:二项式期权</p>
+<p>本节中，我们以一个应用开发者的角度来看一个较为复杂的例子。这里的代码需要使用之前章节所提到的编译技术进行转换，转换成一个正确，且有较高性能OpenCL实现。应用我们选择了二项式期权。注意，我们不会从数学和经济学的角度深度探讨该问题，只是对于编译器作者来说，将其做为一个完整的例子。</p>
+<pre><code class="language-c++">void binomial_options_gpu(
+  std::vector&lt;float&gt; &amp;v_s,
+  std::vector&lt;float&gt; &amp;v_x,
+  std::vector&lt;float&gt; &amp;v_vdt,
+  std::vector&lt;float&gt; &amp;v_pu_by_df,
+  std::vector&lt;float&gt; &amp;v_pd_by_df,
+  std::vector&lt;float&gt; &amp;call_value)
+</code></pre>
+<p>上面的代码就是二项式期权函数的声明，其中call_value作为存储最终结果的对象，其他的参数都仅作为输入参数。</p>
+<pre><code class="language-c++">extent&lt;1&gt; e(data_size);
+arrar_view&lt;float, 1&gt; av_call_value(e, call_value);
+av_call_value.discard_data();
+</code></pre>
+<p>为了将输入数据输入内核函数，数据需要通过<code>C++ AMP</code>的容器进行包装。本例中，使用<code>concurrency::array_view</code>。av_call_value对象调用discar_data，就是用来告诉运行时，这段数据无需从主机端拷贝到设备端。</p>
+<pre><code class="language-c++">array_view&lt;const float, 1&gt; av_s(e, v_s);
+array_view&lt;const float, 1&gt; av_x(e, v_x);
+array_view&lt;const float, 1&gt; av_vdt(e, v_vdt);
+array_view&lt;const float, 1&gt; av_pu_by_df(e, v_pu_by_df);
+array_view&lt;const float, 1&gt; av_pd_by_df(e, v_pd_by_df);
+
+exten&lt;1&gt; ebuf(MAX_OPTIONS * (NUM_STEPS + 16));
+array&lt;float, 1&gt; a_call_buffer(ebuf);
+</code></pre>
+<p>注意这里av_s，av_x，av_vdt，av_pu_by_df，av_pd_by_df均由array_view包装，也就是在计算完成后不需要拷贝回主机。</p>
+<pre><code class="language-c++">extent&lt;1&gt; compute_extent(CACHE_SIZE * MAX_OPTIONS);
+parallel_for_each(compute_extent.tile&lt;CACHE_SIZE&gt;(),
+  [=, &amp;a_call_buffer]tile_index&lt;CACHE_SIZE&gt; ti)restrict(amp){
+    binomial_options_gpu(ti, av_s, av_x, av_vdt, av_pu_by_df, av_pd_by_df, av_call_value, a_call_buffer);
+  });
+av_call_value.synchronize();
+</code></pre>
+<p><code>C++ AMP</code>使用parallel_for_each完成计算。在计算完成之后，使用同步成员函数对计算结果进行同步，以确保所有计算结果都已经保存在容器中。所有使用到的数据都会在运行时进行隐式处理。编程者不需要显式的在设备和主机之间进行数据的传递或拷贝。注意parallel_for_each使用显式线程划分进行线程局部控制。</p>
+<pre><code class="language-c++">void binomial_options_kernel(
+  tiled_index&lt;CACHE_SIZE&gt; &amp;tidx,
+  array_view&lt;const float, 1&gt; s,
+  array_view&lt;const float, 1&gt; x,
+  array_view&lt;const float, 1&gt; vdt,
+  array_view&lt;const float, 1&gt; pu_by_df,
+  array_view&lt;const float, 1&gt; pd_by_df,
+  array_view&lt;float, 1&gt; call_value,
+  array&lt;float, 1&gt; &amp;call_buffer) restrict(amp){
+  
+  index&lt;1&gt; tile_idx = tidx.tile;
+  index&lt;1&gt; local_idx = tidx.local;
+  
+  tile_static float call_a[CACHE_SIZE + 1];
+  tile_static float call_b[CACHE_SIZE + 1];
+  
+  int tid = local_idx[0];
+  int i;
+  
+  for (i = tid; i &lt;= NUM_STEPS; i+= CACHE_SIZE){
+    index&lt;1&gt; idx(tile_idx[0] * (NUM_STEPS + 16) + (i));
+    call_buffer[idx] = expiry_call_value(s[tile_idx], x[tile_idx], vdt[tile_idx], i);
+  }
+  
+  for (i = NUM_STEPS; i &gt; 0; i -= CACHE_DELTA){
+    for (int c_base = 0; c_base &lt; i; c_base += CACHE_STEP){
+      int c_start = min(CACHE_SIZE - 1, i - c_base);
+      int c_end = c_start - CACHE_DELTA;
+      
+      tidx.barrier.wait();
+      if (tid &lt;= c_start){
+        index&lt;1&gt; idx(tile_idx[0] * (NUM_STEPS + 16) + (c_base + tid));
+        call_a[tid] = call_buffer[idx];
+      }
+      
+      for (int k = c_start - 1; k &gt;= c_end;){
+        tidx.barrier.wait();
+        call_b[tid] = pu_by_df[tile_idx] * call_a[tid + 1] + pd_by_df[tile_idx] * call_a[tid];
+        k--;
+        
+        tidx.barrier.wait();
+        call_a[tid] = pu_by_df[tile_idx] * call_b[tid + 1] + pd_by_df[tile_idx] * call_b[tid];
+        k--;
+    }
+    
+    tidx.barrier.wait();
+    if (tid &lt;= c_end){
+      index&lt;1&gt; idx(tile_idx[0] * (NUM_STEPS + 16) + (c_base + tid));
+      call_buffer[idx] = call_a[tid];
+    }
+  }
+  
+  if (tid == 0){
+    call_value[tile_idx] = call_a[0];
+  }
+}
+</code></pre>
+<p>声明为tile_static类型的数据将在同一工作组内进行共享。为了确保共享数据的一致性，我们这里使用了tidx.barrier.wait函数。在同一工作组内的工作项将会在这个调用点进行等待，直到工作组内所有线程都到达该调用点为止。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../content/chapter11/11.10-chinese.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../content/chapter11/11.12-chinese.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../content/chapter11/11.10-chinese.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../content/chapter11/11.12-chinese.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
