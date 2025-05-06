@@ -6,6 +6,9 @@ Heterogeneous Computing with OpenCL 2.0
 - 作者：David Kaeli, Perhaad Mistry, Dana Schaa, Dong Ping Zhang
 - 译者：陈晓伟
 
+## 在线地址
+https://dualhappiness.github.io/Heterogeneous-Computing-with-OpenCL-2.0
+
 ## 本书概述
 
 作为对《Heterogeneour Computing with OpenCL 2.0 (Thrid Edition)》英文版的中文翻译。
